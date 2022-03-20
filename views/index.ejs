@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/vendor/cssui.css" />
+    <link rel="stylesheet" href="stylesheets/style.css" />
+    <link rel="stylesheet" href="stylesheets/style.css" />
+    <link rel="stylesheet" href="stylesheets/modal/modal.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 class="title">Twitter Clone</h1>
+
+    <div class="nav">
+      <% if (user.user) { %>
+      <a href="#" class="login-now">
+        <img class="nav-icon" src="images/user_icon.svg" alt="" />
+        <p class="user_name_section"><%= user.user %></p>
+      </a>
+      <a href="#modal">
+        <img class="nav-icon" src="images/tweet_icon.svg" alt="" />
+        <p>つぶやく</p>
+      </a>
+      <a href="/logout">
+        <img class="nav-icon" src="images/logout_icon.svg" alt="" />
+        <p>ログアウト</p>
+      </a>
+      <% } %>
+      <a href="/login" class="login-icon">
+        <img class="nav-icon" src="images/login_icon.svg" alt="" />
+        <p>ログイン</p>
+      </a>
+      <% if (!user.user) { %>
+      <a href="/register">
+        <img class="nav-icon" src="images/register_icon.svg" alt="" />
+        <p>登録</p>
+      </a>
+      <% } %>
+    </div>
+
+    <section class="tweets-box">
+      <ul class="tweets-list"></ul>
+    </section>
+
+    <!-- Modal -->
+    <div id="modal" data-modal>
+      <!-- Modal  -->
+      <div
+        id="dialog"
+        data-modal-dialog
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="dialog-title"
+        tabindex="-1"
+      >
+        <form action="/tweet" method="post" class="form-box">
+          <textarea name="tweet" class="m-form-textarea" /></textarea>
+          <button type="submit" class="sign-in-button">投稿</button>
+        </form>
+
+        <a href="#" aria-label="Close modal" data-modal-close>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-x"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Background, click to close -->
+      <a href="#" tabindex="-1" data-modal-overlay></a>
+    </div>
+  </body>
+
+  <script>
+    let tweets = "init";
+    start();
+    async function start() {
+      await new Promise((resolve) => {
+        fetch("getAllTweets")
+          .then((data) => data.json())
+          .then((obj) => {
+            console.log(obj);
+            tweets = obj;
+          });
+        resolve();
+      });
+
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          for (const tweet of tweets) {
+            console.log(tweet);
+            const tweetsList = document.querySelector(".tweets-list");
+
+            const content = document.createElement("li");
+            content.classList.add("content");
+            const tweetUser = document.createElement("p");
+            tweetUser.classList.add("tweet-user");
+            const tweetContent = document.createElement("p");
+            tweetContent.classList.add("tweet-content");
+
+            content.appendChild(tweetUser);
+            content.appendChild(tweetContent);
+
+            tweetUser.textContent = tweet.user;
+            tweetContent.textContent = tweet.tweet;
+
+            tweetsList.prepend(content);
+          }
+        }, 200);
+      });
+    }
+    if (document.cookie) {
+      document.querySelector(".login-icon").style.display = "none";
+    }
+  </script>
+</html>
