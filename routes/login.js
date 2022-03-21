@@ -23,7 +23,7 @@ router.post("/", (req, res) => {
         res
           .cookie("SessionID", session.session_id, {
             maxAge: 3600000,
-            secure: true,
+            secure: false,
             httpOnly: false,
           })
           .render("index", { user: user });
