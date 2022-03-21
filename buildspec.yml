@@ -24,7 +24,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t 884551203152.dkr.ecr.ap-northeast-1.amazonaws.com/tw_clone:v0 .
+      - docker build -t 884551203152.dkr.ecr.ap-northeast-1.amazonaws.com/tw_clone:v0 --build-arg MYSQL_USER=$MYSQL_USER --build-arg MYSQL_PASSWORD=$MYSQL_PASSWORD --build-arg MYSQL_DATABASE=$MYSQL_DATABASE --build-arg MYSQL_SERVER=$MYSQL_SERVER .
       - docker tag 884551203152.dkr.ecr.ap-northeast-1.amazonaws.com/tw_clone:v0 884551203152.dkr.ecr.ap-northeast-1.amazonaws.com/884551203152.dkr.ecr.ap-northeast-1.amazonaws.com/tw_clone:v0
   post_build:
     commands:
