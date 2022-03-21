@@ -3,7 +3,7 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: "arn:aws:ecs:ap-northeast-1:884551203152:task-definition/tw-clone-app-taskdef_v2:1"
+        TaskDefinition: "arn:aws:ecs:ap-northeast-1:884551203152:task-definition/Taskdef:1"
         LoadBalancerInfo:
           ContainerName: "fargate-app"
           ContainerPort: 80
