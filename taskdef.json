@@ -9,7 +9,7 @@
         "logDriver": "awslogs",
         "secretOptions": null,
         "options": {
-          "awslogs-group": "/ecs/tw-clone-app-taskdef_v2",
+          "awslogs-group": "/ecs/Taskdef",
           "awslogs-region": "ap-northeast-1",
           "awslogs-stream-prefix": "ecs"
         }
@@ -54,15 +54,15 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "tw-clone-container"
+      "name": "Container"
     }
   ],
   "placementConstraints": [],
   "memory": "512",
   "taskRoleArn": null,
   "compatibilities": ["EC2", "FARGATE"],
-  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-1:884551203152:task-definition/tw-clone-app-taskdef_v2:1",
-  "family": "tw-clone-app-taskdef_v2",
+  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-1:884551203152:task-definition/Taskdef:1",
+  "family": "Taskdef",
   "requiresAttributes": [
     {
       "targetId": null,
