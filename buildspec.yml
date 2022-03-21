@@ -32,3 +32,8 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push 884551203152.dkr.ecr.ap-northeast-1.amazonaws.com/tw_clone:v0
+
+artifacts:
+  files:
+    - appspec.yml
+    - taskdef.json
