@@ -1,0 +1,34 @@
+version: 0.2
+
+env:
+  secrets-manager:
+    DOCKERHUB_USER: arn:aws:secretsmanager:ap-northeast-1:884551203152:secret:dockerhub_pass-ZYnMwC:username
+    DOCKERHUB_PASS: arn:aws:secretsmanager:ap-northeast-1:884551203152:secret:dockerhub_pass-ZYnMwC:password
+    MYSQL_USER: arn:aws:secretsmanager:ap-northeast-1:884551203152:secret:db_pass-X0L1iY:MYSQL_USER
+    MYSQL_PASSWORD: arn:aws:secretsmanager:ap-northeast-1:884551203152:secret:db_pass-X0L1iY:MYSQL_PASSWORD
+    MYSQL_DATABASE: arn:aws:secretsmanager:ap-northeast-1:884551203152:secret:db_pass-X0L1iY:MYSQL_DATABASE
+    MYSQL_SERVER: arn:aws:secretsmanager:ap-northeast-1:884551203152:secret:db_pass-X0L1iY:MYSQL_SERVER
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login --no-include-email --region ap-northeast-1
+      - echo Logging in to Docker Hub...
+      - echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
+      - echo $MYSQL_USER
+      - echo $MYSQL_PASSWORD
+      - echo $MYSQL_DATABASE
+      - echo $MYSQL_SERVER
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t 884551203152.dkr.ecr.ap-northeast-1.amazonaws.com/tw_clone:v0 .
+      - docker tag 884551203152.dkr.ecr.ap-northeast-1.amazonaws.com/tw_clone:v0 884551203152.dkr.ecr.ap-northeast-1.amazonaws.com/884551203152.dkr.ecr.ap-northeast-1.amazonaws.com/tw_clone:v0
+  post_build:
+    commands:
+      - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 884551203152.dkr.ecr.ap-northeast-1.amazonaws.com
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 884551203152.dkr.ecr.ap-northeast-1.amazonaws.com/884551203152.dkr.ecr.ap-northeast-1.amazonaws.com/tw_clone:v0
